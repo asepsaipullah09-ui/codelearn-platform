@@ -1,21 +1,19 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProgress } from "../../utils/progress";
+import { pythonOrder } from "../../data/pythonTopics";
 
 function PythonLayout() {
-  const topics = [
-    "introduction",
-    "variables",
-    "operators",
-    "if-else",
-    "loops"
-  ];
-
   const [progress, setProgress] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     setProgress(getProgress());
-  }, []);
+  }, [location]);
+
+  const percentage = Math.round(
+    (progress.length / pythonOrder.length) * 100
+  );
 
   return (
     <div className="flex min-h-screen bg-gray-950 text-white">
@@ -25,8 +23,21 @@ function PythonLayout() {
           Python Tutorial
         </h2>
 
+        {/* Progress Bar */}
+        <div className="mb-6">
+          <p className="text-sm text-gray-400 mb-2">
+            Progress: {percentage}%
+          </p>
+          <div className="w-full bg-gray-800 rounded-full h-3">
+            <div
+              className="bg-green-500 h-3 rounded-full transition-all duration-500"
+              style={{ width: `${percentage}%` }}
+            ></div>
+          </div>
+        </div>
+
         <ul className="space-y-3">
-          {topics.map((topic) => (
+          {pythonOrder.map((topic) => (
             <li key={topic}>
               <NavLink
                 to={`/python/${topic}`}
@@ -38,7 +49,7 @@ function PythonLayout() {
                   }`
                 }
               >
-                <span>{topic}</span>
+                <span className="capitalize">{topic}</span>
                 {progress.includes(topic) && <span>✅</span>}
               </NavLink>
             </li>
