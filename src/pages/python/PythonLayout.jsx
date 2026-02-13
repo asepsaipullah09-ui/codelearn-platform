@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getProgress } from "../../utils/progress";
+import { getProgress, resetProgress } from "../../utils/progress";
 import { pythonOrder } from "../../data/pythonTopics";
 
 function PythonLayout() {
@@ -14,6 +14,11 @@ function PythonLayout() {
   const percentage = Math.round(
     (progress.length / pythonOrder.length) * 100
   );
+
+  const handleResetProgress = () => {
+    resetProgress();
+    setProgress([]);
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-950 text-white">
@@ -55,6 +60,14 @@ function PythonLayout() {
             </li>
           ))}
         </ul>
+
+        {/* Reset Progress Button */}
+        <button
+          onClick={handleResetProgress}
+          className="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg transition"
+        >
+          Reset Progress
+        </button>
       </aside>
 
       {/* Content */}
