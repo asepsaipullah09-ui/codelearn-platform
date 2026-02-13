@@ -1,9 +1,5 @@
-import { useParams } from "react-router-dom";
-import pythonTopics from "../../data/pythonTopics";
-
 function PythonTopic() {
   const { topic } = useParams();
-
   const lesson = pythonTopics[topic];
 
   if (!lesson) {
@@ -20,13 +16,17 @@ function PythonTopic() {
         {lesson.content}
       </p>
 
-      <div className="bg-gray-900 p-6 rounded-lg overflow-x-auto">
-        <pre className="text-green-400">
-          <code>{lesson.code}</code>
-        </pre>
-      </div>
+      <SyntaxHighlighter
+        language="python"
+        style={oneDark}
+        customStyle={{
+          borderRadius: "12px",
+          padding: "20px",
+          fontSize: "14px"
+        }}
+      >
+        {lesson.code}
+      </SyntaxHighlighter>
     </div>
   );
 }
-
-export default PythonTopic;
